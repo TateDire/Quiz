@@ -1,11 +1,9 @@
 import random
 
-
-# To check if the user enters a valid response
+# Checks if the user typed a valid answer from a list of options
 def string_checker(question, viable_ans=None):
     if viable_ans is None:
         viable_ans = ["yes", "no"]
-
 
     error = f"Please enter a valid option from: {viable_ans}"
 
@@ -19,7 +17,7 @@ def string_checker(question, viable_ans=None):
         print(error)
         print()
 
-# The instructions
+# Shows the instructions
 def instructions():
     print("""
 
@@ -36,7 +34,7 @@ Try to get as many right as you can. Good luck!
 
 """)
 
-# Asks how many rounds to play
+# Asks the user how many rounds they want to play
 def int_check(question):
     while True:
         error = "Please enter a whole number like 1 or more."
@@ -55,10 +53,11 @@ def int_check(question):
         except ValueError:
             print(error)
 
-# To create a random question
+# Makes a random maths question
 def generate_question():
     math_type = random.choice(['+', '-', '*', '/'])
 
+    # Makes sure the maths works properly 
     if math_type == '+':
         a = random.randint(1, 100)
         b = random.randint(1, 100)
@@ -68,7 +67,7 @@ def generate_question():
     elif math_type == '-':
         a = random.randint(1, 100)
         b = random.randint(1, 100)
-        a, b = max(a, b), min(a, b)  # Makes sure the answer isn't negative
+        a, b = max(a, b), min(a, b)  # To make sure the answer won't be in the negatives
         question1 = f"What is {a} - {b}? "
         answer = a - b
 
@@ -78,22 +77,22 @@ def generate_question():
         question1 = f"What is {a} x {b}? "
         answer = a * b
 
-    else:  # Division with a whole number result
+    else:  # Division that gives a whole number answer
         b = random.randint(1, 12)
         answer = random.randint(1, 12)
-        a = b * answer  # Makes sure division works evenly
+        a = b * answer 
         question1 = f"What is {a} ÷ {b}? (Whole numbers only) "
 
     return question1, answer
 
-# Setup
+# Keeps track of the progress
 mode = "regular"
 rounds_played = 0
 rounds_correct = 0
 rounds_incorrect = 0
 quiz_history = []
 
-# Main routine
+# Main Routine
 print("\n✖️➕➖➗ Math Quiz ➗➖➕✖️\n")
 
 want_instructions = string_checker("Do you want to see the instructions? ")
@@ -103,6 +102,7 @@ if want_instructions == "yes":
 
 num_rounds = int_check("Rounds <enter for infinite>: ")
 
+# If the player picks infinite mode
 if num_rounds == "infinite":
     print("Infinite mode selected!")
     mode = "infinite"
@@ -110,7 +110,7 @@ if num_rounds == "infinite":
 else:
     print(f"You chose {num_rounds} round/rounds.")
 
-# Game loop
+# The loop so the game keeps asking questions
 while rounds_played < num_rounds:
 
     # Ask a random maths question
@@ -119,12 +119,12 @@ while rounds_played < num_rounds:
     user_choice = input(question)
     ...
 
-    # Chicken out feature ( found out that .lower makes it so any type of capitalization of xxx will still work!)
+    # Lets the user quit by typing xxx (works no matter the caps used)
     if user_choice.lower() == "xxx":
         print("🐔🐔🐔 Oops - You chickened out! 🐔🐔🐔")
         break
 
-    # If the user presses enter with nothing written
+    # Makes sure the user doesn’t just press enter with no answer
     if user_choice == "":
         print("Please enter an answer.")
         continue
@@ -150,7 +150,7 @@ while rounds_played < num_rounds:
     if mode == "infinite":
         num_rounds += 1
 
-# Show results
+# Shows how the player did after the game finishes
 if rounds_played > 0:
     print("\n--- Quiz Summary ---")
     print(f"Total Correct ✅: {rounds_correct}")
